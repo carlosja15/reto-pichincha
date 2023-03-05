@@ -1,0 +1,20 @@
+﻿version: '3.9'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: admin
+      ACCEPT_EULA: Y
+    ports:
+      - "1433:1433"
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+      ConnectionStrings__AppConnectionString: "Server=db,1433;Database=app,User Id=sa;Password=admin"
