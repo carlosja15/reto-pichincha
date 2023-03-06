@@ -6,7 +6,7 @@ namespace Reto.Application.Core.Cliente.Commands;
 
 public class CreateClienteCommand : IRequest<CreateClienteResult>
 {
-    public string Nombres { get; set; } = default!;
+    public string Nombre { get; set; } = default!;
     public int Edad { get; set; }
     public GeneroPersona Genero { get; set; }
     public string Identificacion { get; set; } = default!;

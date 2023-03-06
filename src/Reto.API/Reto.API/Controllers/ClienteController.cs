@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using Mapster;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Reto.API.Model;
 using Reto.Application.Core.Cliente.Commands;
 using Reto.Application.Core.Cliente.Queries;
 
@@ -24,10 +26,32 @@ namespace Reto.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateClienteCommand command)
+        public async Task<IActionResult> Create([FromBody] ClienteModel body)
         {
+            var command = body.Adapt<CreateClienteCommand>();
             var result = await _mediator.Send(command);
             return Ok(result);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] ClienteModel body)
+        {
+            var command = body.Adapt<UpdateClienteCommand>();
+            command.Id = id;
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var command = new DeleteClienteCommand(id);
+
+            await _mediator.Send(command);
+
+            return NoContent();
         }
     }
 }

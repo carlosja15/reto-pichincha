@@ -5,18 +5,18 @@ using Reto.Domain.Repositories;
 
 namespace Reto.Application.Core.Cliente.Commands;
 
-public class CreateClienteCommandHandler : IRequestHandler<CreateClienteCommand, CreateClienteResult>
+public class UpdateClienteCommandHandler : IRequestHandler<UpdateClienteCommand, UpdateClienteResult>
 {
     private readonly IClienteRepository _clienteRepository;
 
-    public CreateClienteCommandHandler(IClienteRepository clienteRepository)
+    public UpdateClienteCommandHandler(IClienteRepository clienteRepository)
     {
         _clienteRepository = clienteRepository;
     }
 
-    public async Task<CreateClienteResult> Handle(CreateClienteCommand request, CancellationToken cancellationToken)
+    public async Task<UpdateClienteResult> Handle(UpdateClienteCommand request, CancellationToken cancellationToken)
     {
-        var cliente = Domain.Entities.Cliente.Create(
+        var cliente = Domain.Entities.Cliente.Update(
             request.Nombre,
             request.Edad,
             request.Genero,
@@ -25,8 +25,8 @@ public class CreateClienteCommandHandler : IRequestHandler<CreateClienteCommand,
             request.Telefono,
             request.Contrasenia);
 
-        var result = await _clienteRepository.Create(cliente);
+        var result = await _clienteRepository.Update(request.Id, cliente);
 
-        return result.Adapt<CreateClienteResult>();
+        return result.Adapt<UpdateClienteResult>();
     }
 }

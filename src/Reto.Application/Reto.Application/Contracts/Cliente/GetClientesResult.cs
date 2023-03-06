@@ -3,5 +3,5 @@
 public class GetClientesResult
 {
     public int ClienteId { get; set; }
-    public string Nombre { get; set; }
+    public string Nombre { get; set; } = default!;
 }
